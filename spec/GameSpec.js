@@ -6,36 +6,36 @@ describe("Tic Tac Toe Game", function() {
   })
 
   it("makes sure that player One starts", function() {
-    var validTurn = game.put(Game.playerOne)
+    var validTurn = game.put(Game.playerOne, [2, 3])
     expect(validTurn).toEqual(true)
   })
 
   it("makes sure that player Two does not start", function() {
-    var validTurn = game.put(Game.playerTwo)
+    var validTurn = game.put(Game.playerTwo, [2, 3])
     expect(validTurn).toEqual(false)
   })
 
   it("makes sure that player Two makes second turn", function() {
-    game.put(Game.playerOne)
+    game.put(Game.playerOne, [2, 3])
 
-    var validTurn = game.put(Game.playerTwo)
+    var validTurn = game.put(Game.playerTwo, [2, 2])
     expect(validTurn).toEqual(true)
   })
 
   it("makes sure that player One makes third turn", function() {
-    game.put(Game.playerOne)
-    game.put(Game.playerTwo)
+    game.put(Game.playerOne, [2, 3])
+    game.put(Game.playerTwo, [2, 2])
 
-    var validTurn = game.put(Game.playerOne)
+    var validTurn = game.put(Game.playerOne, [2, 1])
     expect(validTurn).toEqual(true)
   })
 
   it("makes sure that player Two makes fourth turn", function() {
-    game.put(Game.playerOne)
-    game.put(Game.playerTwo)
-    game.put(Game.playerOne)
+    game.put(Game.playerOne, [2, 3])
+    game.put(Game.playerTwo, [2, 2])
+    game.put(Game.playerOne, [2, 1])
 
-    var validTurn = game.put(Game.playerTwo)
+    var validTurn = game.put(Game.playerTwo, [1, 1])
     expect(validTurn).toEqual(true)
   })
 
@@ -78,5 +78,13 @@ describe("Tic Tac Toe Game", function() {
 
     var validTurn = game.put(Game.playerOne, [3, 2])
     expect(validTurn).toEqual(true)
+  })
+
+  it("is not possible to put mark in cell occupied in one of the previous turns", function() {
+    game.put(Game.playerOne, [3, 3])
+    game.put(Game.playerTwo, [3, 2])
+
+    var validTurn = game.put(Game.playerOne, [3, 3])
+    expect(validTurn).toEqual(false)
   })
 })

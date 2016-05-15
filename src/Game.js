@@ -1,16 +1,16 @@
 function Game() {
   this.cells = [
-    [1, 1, false],
-    [1, 2, false],
-    [1, 3, false],
+    [1, 1, Game.notOccupied],
+    [1, 2, Game.notOccupied],
+    [1, 3, Game.notOccupied],
 
-    [2, 1, false],
-    [2, 2, false],
-    [2, 3, false],
+    [2, 1, Game.notOccupied],
+    [2, 2, Game.notOccupied],
+    [2, 3, Game.notOccupied],
 
-    [3, 1, false],
-    [3, 2, false],
-    [3, 3, false],
+    [3, 1, Game.notOccupied],
+    [3, 2, Game.notOccupied],
+    [3, 3, Game.notOccupied],
   ]
 
   this.currentPlayer = Game.playerOne
@@ -18,6 +18,10 @@ function Game() {
 
 Game.playerOne = "X"
 Game.playerTwo = "O"
+
+Game.occupied = true
+Game.notOccupied = false
+Game.notFound = undefined
 
 Game.prototype.put = function(mark, cell) {
   if (this.isOccupied(cell)) return false
@@ -38,11 +42,11 @@ Game.prototype.switchToCurrentPlayer = function() {
 }
 
 Game.prototype.occupy = function(cell) {
-  this.findCell(cell, false)[2] = true
+  this.findCell(cell, Game.notOccupied)[2] = Game.occupied
 }
 
 Game.prototype.isOccupied = function(cell) {
-  return this.findCell(cell, true) != undefined
+  return this.findCell(cell, Game.occupied) != Game.notFound
 }
 
 Game.prototype.findCell = function(cell, occupied) {

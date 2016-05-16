@@ -19,12 +19,9 @@ Cell.prototype.occupy = function() {
 }
 
 Cell.prototype.isEqual = function(other) {
-  var result = this.row == other.row &&
+  return this.row == other.row &&
     this.column == other.column &&
     this.occupied == other.occupied
-
-  console.log(this, "isEqual", other, "==", result)
-  return result
 }
 
 Cell.None = function() {

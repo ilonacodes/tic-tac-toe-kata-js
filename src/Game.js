@@ -1,28 +1,27 @@
 function Game() {
+  // properties
   this.cells = [
-    [1, 1, Game.notOccupied],
-    [1, 2, Game.notOccupied],
-    [1, 3, Game.notOccupied],
+    new Cell(1, 1, Cell.notOccupied),
+    new Cell(1, 2, Cell.notOccupied),
+    new Cell(1, 3, Cell.notOccupied),
 
-    [2, 1, Game.notOccupied],
-    [2, 2, Game.notOccupied],
-    [2, 3, Game.notOccupied],
+    new Cell(2, 1, Cell.notOccupied),
+    new Cell(2, 2, Cell.notOccupied),
+    new Cell(2, 3, Cell.notOccupied),
 
-    [3, 1, Game.notOccupied],
-    [3, 2, Game.notOccupied],
-    [3, 3, Game.notOccupied],
+    new Cell(3, 1, Cell.notOccupied),
+    new Cell(3, 2, Cell.notOccupied),
+    new Cell(3, 3, Cell.notOccupied),
   ]
 
   this.currentPlayer = Game.playerOne
 }
 
+// constants
 Game.playerOne = "X"
 Game.playerTwo = "O"
 
-Game.occupied = true
-Game.notOccupied = false
-Game.notFound = undefined
-
+// functions
 Game.prototype.put = function(mark, cell) {
   if (this.isOccupied(cell)) return false
   if (! this.isFromCurrentPlayer(mark)) return false
@@ -42,17 +41,17 @@ Game.prototype.switchToCurrentPlayer = function() {
 }
 
 Game.prototype.occupy = function(cell) {
-  this.findCell(cell, Game.notOccupied)[2] = Game.occupied
+  this.findCell(cell, Cell.notOccupied).occupy()
 }
 
 Game.prototype.isOccupied = function(cell) {
-  return this.findCell(cell, Game.occupied) != Game.notFound
+  return this.findCell(cell, Cell.occupied).isOccupied()
 }
 
 Game.prototype.findCell = function(cell, occupied) {
-  var boardCell = cell.concat(occupied)
+  var boardCell = new Cell(cell[0], cell[1], occupied)
   var index = indexOfCell(this.cells, boardCell)
-  return this.cells[index]
+  return this.cells[index] || Cell.None()
 }
 
 Game.prototype.isFromCurrentPlayer = function(mark) {
@@ -61,17 +60,10 @@ Game.prototype.isFromCurrentPlayer = function(mark) {
 
 function indexOfCell(cells, cell) {
   for (var index = 0; index < cells.length; index++) {
-    if (isSameCell(cells[index], cell)) {
+    if (cells[index].isEqual(cell)) {
       return index
     }
   }
 
   return -1
-}
-
-function isSameCell(left, right) {
-  return left != null &&
-    left[0] == right[0] &&
-    left[1] == right[1] &&
-    left[2] == right[2]
 }

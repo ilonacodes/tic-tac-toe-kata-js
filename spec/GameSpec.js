@@ -87,4 +87,22 @@ describe("Tic Tac Toe Game", function() {
     var validTurn = game.put(Game.playerOne, [3, 3])
     expect(validTurn).toEqual(false)
   })
+
+  it("is a tie when the board is full", function() {
+    game.put(Game.playerOne, [1, 2])
+    game.put(Game.playerTwo, [2, 2])
+    game.put(Game.playerOne, [1, 3])
+    game.put(Game.playerTwo, [1, 1])
+    game.put(Game.playerOne, [3, 3])
+    game.put(Game.playerTwo, [2, 3])
+    game.put(Game.playerOne, [2, 1])
+    game.put(Game.playerTwo, [3, 2])
+    game.put(Game.playerOne, [3, 1])
+
+    expect(game.isTie()).toEqual(true)
+  })
+
+  it("is not a tie when the board is empty", function() {
+    expect(game.isTie()).toEqual(false)
+  })
 })

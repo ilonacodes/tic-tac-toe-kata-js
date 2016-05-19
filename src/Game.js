@@ -32,6 +32,19 @@ Game.prototype.put = function(mark, cell) {
   return true
 }
 
+Game.prototype.isTie = function() {
+  for (var index = 0; index < this.cells.length; index++) {
+    var cell = this.cells[index]
+    if (cell.isOccupied()) {
+      return true
+    }
+  }
+
+  return false
+}
+
+// private functions
+
 Game.prototype.switchToCurrentPlayer = function() {
   if (this.currentPlayer == Game.playerOne) {
     this.currentPlayer = Game.playerTwo

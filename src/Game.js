@@ -33,14 +33,9 @@ Game.prototype.put = function(mark, cell) {
 }
 
 Game.prototype.isTie = function() {
-  for (var index = 0; index < this.cells.length; index++) {
-    var cell = this.cells[index]
-    if (cell.isOccupied()) {
-      return true
-    }
-  }
-
-  return false
+  return this.cells.every(function(cell) {
+    return cell.isOccupied()
+  })
 }
 
 // private functions
@@ -63,20 +58,14 @@ Game.prototype.isOccupied = function(cell) {
 
 Game.prototype.findCell = function(cell, occupied) {
   var boardCell = new Cell(cell[0], cell[1], occupied)
-  var index = indexOfCell(this.cells, boardCell)
-  return this.cells[index] || Cell.None()
+
+  var found = this.cells.find(function(cell) {
+    return cell.isEqual(boardCell)
+  })
+
+  return found || Cell.None()
 }
 
 Game.prototype.isFromCurrentPlayer = function(mark) {
   return mark == this.currentPlayer
-}
-
-function indexOfCell(cells, cell) {
-  for (var index = 0; index < cells.length; index++) {
-    if (cells[index].isEqual(cell)) {
-      return index
-    }
-  }
-
-  return -1
 }

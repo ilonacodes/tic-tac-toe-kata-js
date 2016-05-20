@@ -105,4 +105,10 @@ describe("Tic Tac Toe Game", function() {
   it("is not a tie when the board is empty", function() {
     expect(game.isTie()).toEqual(false)
   })
+
+  it("is not a tie when the board is half-full", function() {
+    game.put(Game.playerOne, [1, 2])
+
+    expect(game.isTie()).toEqual(false)
+  })
 })

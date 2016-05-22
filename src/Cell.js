@@ -3,6 +3,7 @@ function Cell(row, column, occupied) {
   this.row = row
   this.column = column
   this.occupied = occupied
+  this.occupator = null
 }
 
 // constants
@@ -14,8 +15,13 @@ Cell.prototype.isOccupied = function() {
   return this.occupied == Cell.occupied
 }
 
-Cell.prototype.occupy = function() {
+Cell.prototype.occupy = function(occupator) {
   this.occupied = Cell.occupied
+  this.occupator = occupator
+}
+
+Cell.prototype.occupiedBy = function() {
+  return this.occupator
 }
 
 Cell.prototype.isEqual = function(other) {

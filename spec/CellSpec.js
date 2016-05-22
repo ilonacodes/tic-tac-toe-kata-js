@@ -21,8 +21,20 @@ describe("Cell", function() {
 
   it("is occupied when created as not occupied and occupied later", function() {
     var cell = new Cell(2, 3, Cell.notOccupied)
-    cell.occupy()
+    cell.occupy(Game.playerOne)
     expect(cell.isOccupied()).toEqual(true)
+  })
+
+  it("is occupied by first player", function() {
+    var cell = new Cell(2, 3, Cell.notOccupied)
+    cell.occupy(Game.playerOne)
+    expect(cell.occupiedBy()).toEqual(Game.playerOne)
+  })
+
+  it("is occupied by second player", function() {
+    var cell = new Cell(2, 3, Cell.notOccupied)
+    cell.occupy(Game.playerTwo)
+    expect(cell.occupiedBy()).toEqual(Game.playerTwo)
   })
 
   it("is equal to another cell when same properties", function() {

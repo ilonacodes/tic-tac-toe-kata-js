@@ -20,14 +20,16 @@ function Game() {
 // constants
 Game.playerOne = "X"
 Game.playerTwo = "O"
+Game.nobody = "nobody"
+Game.tie = "tie"
 
 // functions
 Game.prototype.put = function(mark, cell) {
   if (this.isOccupied(cell)) return false
   if (! this.isFromCurrentPlayer(mark)) return false
 
-  this.occupy(cell)
-  this.switchToCurrentPlayer()
+  this.occupy(cell, mark)
+  this.switchToNextPlayer()
 
   return true
 }
@@ -38,9 +40,14 @@ Game.prototype.isTie = function() {
   })
 }
 
+Game.prototype.winner = function() {
+  if (this.isTie()) return Game.tie
+  return Game.nobody
+}
+
 // private functions
 
-Game.prototype.switchToCurrentPlayer = function() {
+Game.prototype.switchToNextPlayer = function() {
   if (this.currentPlayer == Game.playerOne) {
     this.currentPlayer = Game.playerTwo
   } else {
@@ -48,8 +55,8 @@ Game.prototype.switchToCurrentPlayer = function() {
   }
 }
 
-Game.prototype.occupy = function(cell) {
-  this.findCell(cell, Cell.notOccupied).occupy()
+Game.prototype.occupy = function(cell, mark) {
+  this.findCell(cell, Cell.notOccupied).occupy(mark)
 }
 
 Game.prototype.isOccupied = function(cell) {

@@ -89,15 +89,7 @@ describe("Tic Tac Toe Game", function() {
   })
 
   it("is a tie when the board is full", function() {
-    game.put(Game.playerOne, [1, 2])
-    game.put(Game.playerTwo, [2, 2])
-    game.put(Game.playerOne, [1, 3])
-    game.put(Game.playerTwo, [1, 1])
-    game.put(Game.playerOne, [3, 3])
-    game.put(Game.playerTwo, [2, 3])
-    game.put(Game.playerOne, [2, 1])
-    game.put(Game.playerTwo, [3, 2])
-    game.put(Game.playerOne, [3, 1])
+    playTieGame()
 
     expect(game.isTie()).toEqual(true)
   })
@@ -111,4 +103,38 @@ describe("Tic Tac Toe Game", function() {
 
     expect(game.isTie()).toEqual(false)
   })
+
+  describe("winner", function() {
+    it("is nobody when the board is empty", function() {
+      expect(game.winner()).toEqual(Game.nobody)
+    })
+
+    it("is a tie when board is full and nobody won", function() {
+      playTieGame()
+
+      expect(game.winner()).toEqual(Game.tie)
+    })
+
+    xit("is a first Player when his symbol is one in column", function() {
+      game.put(Game.playerOne, [1, 1])
+      game.put(Game.playerTwo, [1, 3])
+      game.put(Game.playerOne, [2, 1])
+      game.put(Game.playerTwo, [2, 2])
+      game.put(Game.playerOne, [3, 1])
+
+      expect(game.winner()).toEqual(Game.playerOne)
+    })
+  })
+
+  function playTieGame() {
+    game.put(Game.playerOne, [1, 2])
+    game.put(Game.playerTwo, [2, 2])
+    game.put(Game.playerOne, [1, 3])
+    game.put(Game.playerTwo, [1, 1])
+    game.put(Game.playerOne, [3, 3])
+    game.put(Game.playerTwo, [2, 3])
+    game.put(Game.playerOne, [2, 1])
+    game.put(Game.playerTwo, [3, 2])
+    game.put(Game.playerOne, [3, 1])
+  }
 })

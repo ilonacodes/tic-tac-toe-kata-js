@@ -115,7 +115,7 @@ describe("Tic Tac Toe Game", function() {
       expect(game.winner()).toEqual(Game.tie)
     })
 
-    xit("is a first Player when his symbol is one in column", function() {
+    it("is a first Player when his symbol is one in column", function() {
       game.put(Game.playerOne, [1, 1])
       game.put(Game.playerTwo, [1, 3])
       game.put(Game.playerOne, [2, 1])
@@ -123,6 +123,16 @@ describe("Tic Tac Toe Game", function() {
       game.put(Game.playerOne, [3, 1])
 
       expect(game.winner()).toEqual(Game.playerOne)
+    })
+
+    xit("is not a first Player when his symbol is not in column", function() {
+      game.put(Game.playerOne, [1, 1])
+      game.put(Game.playerTwo, [1, 3])
+      game.put(Game.playerOne, [2, 2])
+      game.put(Game.playerTwo, [2, 1])
+      game.put(Game.playerOne, [3, 1])
+
+      expect(game.winner()).not.toEqual(Game.playerOne)
     })
   })
 

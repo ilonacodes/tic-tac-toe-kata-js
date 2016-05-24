@@ -42,6 +42,9 @@ Game.prototype.isTie = function() {
 
 Game.prototype.winner = function() {
   if (this.isTie()) return Game.tie
+  if (! this.findCell([1, 1], Game.playerOne).isEqual(Cell.None())) {
+    return Game.playerOne
+  }
   return Game.nobody
 }
 

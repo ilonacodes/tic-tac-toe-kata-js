@@ -1,22 +1,16 @@
-function Cell(row, column, occupied) {
+function Cell(row, column, occupator) {
   // properties
   this.row = row
   this.column = column
-  this.occupied = occupied
-  this.occupator = null
+  this.occupator = occupator
 }
-
-// constants
-Cell.occupied = true
-Cell.notOccupied = false
 
 // functions
 Cell.prototype.isOccupied = function() {
-  return this.occupied == Cell.occupied
+  return this.occupator != null
 }
 
 Cell.prototype.occupy = function(occupator) {
-  this.occupied = Cell.occupied
   this.occupator = occupator
 }
 
@@ -27,9 +21,9 @@ Cell.prototype.occupiedBy = function() {
 Cell.prototype.isEqual = function(other) {
   return this.row == other.row &&
     this.column == other.column &&
-    this.occupied == other.occupied
+    this.occupator == other.occupator
 }
 
 Cell.None = function() {
-  return new Cell(null, null, Cell.notOccupied)
+  return new Cell(null, null, null)
 }

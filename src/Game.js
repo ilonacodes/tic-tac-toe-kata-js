@@ -1,17 +1,17 @@
 function Game() {
   // properties
   this.cells = [
-    new Cell(1, 1, Cell.notOccupied),
-    new Cell(1, 2, Cell.notOccupied),
-    new Cell(1, 3, Cell.notOccupied),
+    new Cell(1, 1, null),
+    new Cell(1, 2, null),
+    new Cell(1, 3, null),
 
-    new Cell(2, 1, Cell.notOccupied),
-    new Cell(2, 2, Cell.notOccupied),
-    new Cell(2, 3, Cell.notOccupied),
+    new Cell(2, 1, null),
+    new Cell(2, 2, null),
+    new Cell(2, 3, null),
 
-    new Cell(3, 1, Cell.notOccupied),
-    new Cell(3, 2, Cell.notOccupied),
-    new Cell(3, 3, Cell.notOccupied),
+    new Cell(3, 1, null),
+    new Cell(3, 2, null),
+    new Cell(3, 3, null),
   ]
 
   this.currentPlayer = Game.playerOne
@@ -56,15 +56,16 @@ Game.prototype.switchToNextPlayer = function() {
 }
 
 Game.prototype.occupy = function(cell, mark) {
-  this.findCell(cell, Cell.notOccupied).occupy(mark)
+  this.findCell(cell, null).occupy(mark)
 }
 
 Game.prototype.isOccupied = function(cell) {
-  return this.findCell(cell, Cell.occupied).isOccupied()
+  return this.findCell(cell, Game.playerOne).isOccupied() ||
+    this.findCell(cell, Game.playerTwo).isOccupied()
 }
 
-Game.prototype.findCell = function(cell, occupied) {
-  var boardCell = new Cell(cell[0], cell[1], occupied)
+Game.prototype.findCell = function(cell, occupator) {
+  var boardCell = new Cell(cell[0], cell[1], occupator)
 
   var found = this.cells.find(function(cell) {
     return cell.isEqual(boardCell)

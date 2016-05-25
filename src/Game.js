@@ -23,6 +23,11 @@ Game.playerTwo = "O"
 Game.nobody = "nobody"
 Game.tie = "tie"
 
+Game.players = [Game.playerOne, Game.playerTwo]
+
+Game.rows = [1, 2, 3]
+Game.columns = [1, 2, 3]
+
 // functions
 Game.prototype.put = function(mark, cell) {
   if (this.isOccupied(cell)) return false
@@ -42,13 +47,35 @@ Game.prototype.isTie = function() {
 
 Game.prototype.winner = function() {
   if (this.isTie()) return Game.tie
-  if (! this.findCell([1, 1], Game.playerOne).isEqual(Cell.None())) {
-    return Game.playerOne
-  }
-  return Game.nobody
+  return this.findWinnerByColumn() || Game.nobody
 }
 
 // private functions
+
+Game.prototype.findWinnerByColumn = function() {
+  var that = this
+  return Game.players.find(function(player) {
+    return that.findOccupiedColumn(player)
+  })
+}
+
+Game.prototype.findOccupiedColumn = function(occupator) {
+  var that = this
+  return Game.columns.find(function(column) {
+    return that.isColumnOccupied(column, occupator)
+  })
+}
+
+Game.prototype.isColumnOccupied = function(column, occupator) {
+  var that = this
+  return Game.rows.every(function(row) {
+    return that.existCell([row, column], occupator)
+  })
+}
+
+Game.prototype.existCell = function(cell, occupator) {
+  return !this.findCell(cell, occupator).isEqual(Cell.None())
+}
 
 Game.prototype.switchToNextPlayer = function() {
   if (this.currentPlayer == Game.playerOne) {

@@ -27,6 +27,7 @@ Game.players = [Game.playerOne, Game.playerTwo]
 
 Game.rows = [1, 2, 3]
 Game.columns = [1, 2, 3]
+Game.mainDiagonal = [[1, 1], [2, 2], [3, 3]]
 
 // functions
 Game.prototype.put = function(mark, cell) {
@@ -47,29 +48,73 @@ Game.prototype.isTie = function() {
 
 Game.prototype.winner = function() {
   if (this.isTie()) return Game.tie
-  return this.findWinnerByColumn() || Game.nobody
+  return this.findWinnerBy(this.findOccupiedColumn) ||
+         this.findWinnerBy(this.findOccupiedRow) ||
+         this.findWinnerBy(this.isMainDiagonalOccupied) ||
+         Game.nobody
 }
 
 // private functions
 
-Game.prototype.findWinnerByColumn = function() {
+Game.prototype.findWinnerBy = function(predicate) {
   var that = this
   return Game.players.find(function(player) {
-    return that.findOccupiedColumn(player)
+    return predicate.call(that, player)
   })
+}
+
+Game.prototype.isMainDiagonalOccupied = function(occupator) {
+  var that = this
+  return Game.mainDiagonal.every(function(cell) {
+    return that.existCell(cell, occupator)
+  })
+}
+
+Game.prototype.findOccupiedRow = function(occupator) {
+  return this.findOccupiedCollection(
+    Game.rows,
+    this.isRowOccupied,
+    occupator
+  )
 }
 
 Game.prototype.findOccupiedColumn = function(occupator) {
+  return this.findOccupiedCollection(
+    Game.columns,
+    this.isColumnOccupied,
+    occupator
+  )
+}
+
+Game.prototype.findOccupiedCollection = function(collection, predicate, occupator) {
   var that = this
-  return Game.columns.find(function(column) {
-    return that.isColumnOccupied(column, occupator)
+  return collection.find(function(element) {
+    return predicate.call(that, element, occupator)
   })
 }
 
+Game.prototype.isRowOccupied = function(row, occupator) {
+  return this.isOccupiedCollection(
+    Game.rows,
+    function(row, column) { return [row, column] },
+    row,
+    occupator
+  )
+}
+
 Game.prototype.isColumnOccupied = function(column, occupator) {
+  return this.isOccupiedCollection(
+    Game.columns,
+    function(column, row) { return [row, column] },
+    column,
+    occupator
+  )
+}
+
+Game.prototype.isOccupiedCollection = function(collection, coordinateBuilder, element, occupator) {
   var that = this
-  return Game.rows.every(function(row) {
-    return that.existCell([row, column], occupator)
+  return collection.every(function(otherElement) {
+    return that.existCell(coordinateBuilder(element, otherElement), occupator)
   })
 }
 

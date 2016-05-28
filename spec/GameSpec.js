@@ -175,6 +175,26 @@ describe("Tic Tac Toe Game", function() {
 
       expect(game.winner()).toEqual(Game.playerTwo)
     })
+
+    it("is a winner when his symbol is the only one in the first row", function() {
+      game.put(Game.playerOne, [1, 1])
+      game.put(Game.playerTwo, [2, 1])
+      game.put(Game.playerOne, [1, 2])
+      game.put(Game.playerTwo, [2, 2])
+      game.put(Game.playerOne, [1, 3])
+
+      expect(game.winner()).toEqual(Game.playerOne)
+    })
+
+    it("is a winner when his symbol is the only one in the main diagonal", function() {
+      game.put(Game.playerOne, [1, 1])
+      game.put(Game.playerTwo, [1, 2])
+      game.put(Game.playerOne, [2, 2])
+      game.put(Game.playerTwo, [3, 1])
+      game.put(Game.playerOne, [3, 3])
+
+      expect(game.winner()).toEqual(Game.playerOne)
+    })
   })
 
   function playTieGame() {

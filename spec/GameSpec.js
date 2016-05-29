@@ -195,6 +195,57 @@ describe("Tic Tac Toe Game", function() {
 
       expect(game.winner()).toEqual(Game.playerOne)
     })
+
+    it("is a winner when his symbol is the only one in the back diagonal", function() {
+      game.put(Game.playerOne, [1, 3])
+      game.put(Game.playerTwo, [1, 2])
+      game.put(Game.playerOne, [2, 2])
+      game.put(Game.playerTwo, [1, 1])
+      game.put(Game.playerOne, [3, 1])
+
+      expect(game.winner()).toEqual(Game.playerOne)
+    })
+
+    it("is nobody when someone`s symbol at the start of the main diagonal", function() {
+      game.put(Game.playerOne, [1, 1])
+      game.put(Game.playerTwo, [1, 2])
+      game.put(Game.playerOne, [3, 3])
+
+      expect(game.winner()).toEqual(Game.nobody)
+    })
+
+    it("is nobody when someone`s symbol at the start of the back diagonal", function() {
+      game.put(Game.playerOne, [1, 3])
+      game.put(Game.playerTwo, [1, 2])
+      game.put(Game.playerOne, [2, 2])
+
+      expect(game.winner()).toEqual(Game.nobody)
+    })
+  })
+
+  it("is impossible to put a mark when we have a winner", function() {
+    game.put(Game.playerOne, [1, 3])
+    game.put(Game.playerTwo, [2, 3])
+    game.put(Game.playerOne, [2, 2])
+    game.put(Game.playerTwo, [3, 2])
+    game.put(Game.playerOne, [3, 1])
+
+    var validTurn = game.put(Game.playerTwo, [1, 1])
+    expect(validTurn).toEqual(false)
+  })
+
+  it("is not finished when it is a new game", function() {
+    expect(game.isFinished()).toEqual(false)
+  })
+
+  it("is finished when there is a winner", function() {
+    game.put(Game.playerOne, [1, 3])
+    game.put(Game.playerTwo, [2, 3])
+    game.put(Game.playerOne, [2, 2])
+    game.put(Game.playerTwo, [3, 2])
+    game.put(Game.playerOne, [3, 1])
+
+    expect(game.isFinished()).toEqual(true)
   })
 
   function playTieGame() {

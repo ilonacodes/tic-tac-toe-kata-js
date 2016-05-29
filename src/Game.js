@@ -28,11 +28,13 @@ Game.players = [Game.playerOne, Game.playerTwo]
 Game.rows = [1, 2, 3]
 Game.columns = [1, 2, 3]
 Game.mainDiagonal = [[1, 1], [2, 2], [3, 3]]
+Game.backDiagonal = [[1, 3], [2, 2], [3, 1]]
 
 // functions
 Game.prototype.put = function(mark, cell) {
   if (this.isOccupied(cell)) return false
   if (! this.isFromCurrentPlayer(mark)) return false
+  if (this.isFinished()) return false
 
   this.occupy(cell, mark)
   this.switchToNextPlayer()
@@ -51,9 +53,13 @@ Game.prototype.winner = function() {
   return this.findWinnerBy(this.findOccupiedColumn) ||
          this.findWinnerBy(this.findOccupiedRow) ||
          this.findWinnerBy(this.isMainDiagonalOccupied) ||
+         this.findWinnerBy(this.isBackDiagonalOccupied) ||
          Game.nobody
 }
 
+Game.prototype.isFinished = function() {
+  return this.winner() != Game.nobody
+}
 // private functions
 
 Game.prototype.findWinnerBy = function(predicate) {
@@ -67,6 +73,13 @@ Game.prototype.isMainDiagonalOccupied = function(occupator) {
   var that = this
   return Game.mainDiagonal.every(function(cell) {
     return that.existCell(cell, occupator)
+  })
+}
+
+Game.prototype.isBackDiagonalOccupied = function(occupator) {
+  var that = this
+  return Game.backDiagonal.every(function(cell) {
+    return that.existCell(cell,occupator)
   })
 }
 

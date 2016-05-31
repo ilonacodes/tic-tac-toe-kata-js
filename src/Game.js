@@ -60,6 +60,7 @@ Game.prototype.winner = function() {
 Game.prototype.isFinished = function() {
   return this.winner() != Game.nobody
 }
+
 // private functions
 
 Game.prototype.findWinnerBy = function(predicate) {

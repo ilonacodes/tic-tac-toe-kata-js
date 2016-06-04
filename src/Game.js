@@ -42,19 +42,10 @@ Game.prototype.put = function(mark, cell) {
   return true
 }
 
-Game.prototype.isTie = function() {
-  return this.cells.every(function(cell) {
-    return cell.isOccupied()
-  })
-}
-
 Game.prototype.winner = function() {
-  if (this.isTie()) return Game.tie
-  return this.findWinnerBy(this.findOccupiedColumn) ||
-         this.findWinnerBy(this.findOccupiedRow) ||
-         this.findWinnerBy(this.isMainDiagonalOccupied) ||
-         this.findWinnerBy(this.isBackDiagonalOccupied) ||
-         Game.nobody
+  if (this.findWinner()) return this.findWinner()
+  if (this.isFull()) return Game.tie
+  return Game.nobody
 }
 
 Game.prototype.isFinished = function() {
@@ -62,6 +53,19 @@ Game.prototype.isFinished = function() {
 }
 
 // private functions
+
+Game.prototype.findWinner = function() {
+  return this.findWinnerBy(this.findOccupiedColumn) ||
+         this.findWinnerBy(this.findOccupiedRow) ||
+         this.findWinnerBy(this.isMainDiagonalOccupied) ||
+         this.findWinnerBy(this.isBackDiagonalOccupied)
+}
+
+Game.prototype.isFull = function() {
+  return this.cells.every(function(cell) {
+    return cell.isOccupied()
+  })
+}
 
 Game.prototype.findWinnerBy = function(predicate) {
   var that = this

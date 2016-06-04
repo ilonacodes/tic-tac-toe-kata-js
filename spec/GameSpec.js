@@ -88,29 +88,21 @@ describe("Tic Tac Toe Game", function() {
     expect(validTurn).toEqual(false)
   })
 
-  it("is a tie when the board is full", function() {
-    playTieGame()
-
-    expect(game.isTie()).toEqual(true)
-  })
-
-  it("is not a tie when the board is empty", function() {
-    expect(game.isTie()).toEqual(false)
-  })
-
-  it("is not a tie when the board is half-full", function() {
-    game.put(Game.playerOne, [1, 2])
-
-    expect(game.isTie()).toEqual(false)
-  })
-
   describe("winner", function() {
     it("is nobody when the board is empty", function() {
       expect(game.winner()).toEqual(Game.nobody)
     })
 
     it("is a tie when board is full and nobody won", function() {
-      playTieGame()
+      game.put(Game.playerOne, [1, 2])
+      game.put(Game.playerTwo, [2, 2])
+      game.put(Game.playerOne, [1, 3])
+      game.put(Game.playerTwo, [1, 1])
+      game.put(Game.playerOne, [3, 3])
+      game.put(Game.playerTwo, [2, 3])
+      game.put(Game.playerOne, [2, 1])
+      game.put(Game.playerTwo, [3, 2])
+      game.put(Game.playerOne, [3, 1])
 
       expect(game.winner()).toEqual(Game.tie)
     })
@@ -221,6 +213,20 @@ describe("Tic Tac Toe Game", function() {
 
       expect(game.winner()).toEqual(Game.nobody)
     })
+
+    it("is playerOne when full board and playerOne occupies column", function() {
+      game.put(Game.playerOne, [1, 1])
+      game.put(Game.playerTwo, [1, 3])
+      game.put(Game.playerOne, [2, 1])
+      game.put(Game.playerTwo, [2, 2])
+      game.put(Game.playerOne, [3, 2])
+      game.put(Game.playerTwo, [1, 2])
+      game.put(Game.playerOne, [2, 3])
+      game.put(Game.playerTwo, [3, 3])
+      game.put(Game.playerOne, [3, 1])
+
+      expect(game.winner()).toEqual(Game.playerOne)
+    })
   })
 
   it("is impossible to put a mark when we have a winner", function() {
@@ -247,16 +253,4 @@ describe("Tic Tac Toe Game", function() {
 
     expect(game.isFinished()).toEqual(true)
   })
-
-  function playTieGame() {
-    game.put(Game.playerOne, [1, 2])
-    game.put(Game.playerTwo, [2, 2])
-    game.put(Game.playerOne, [1, 3])
-    game.put(Game.playerTwo, [1, 1])
-    game.put(Game.playerOne, [3, 3])
-    game.put(Game.playerTwo, [2, 3])
-    game.put(Game.playerOne, [2, 1])
-    game.put(Game.playerTwo, [3, 2])
-    game.put(Game.playerOne, [3, 1])
-  }
 })

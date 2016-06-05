@@ -22,5 +22,3 @@
 ## Running Tests
 
 `<any modern browser>` SpecRunner.html
-
-TODO: make sure winning condition is correct for full board.
